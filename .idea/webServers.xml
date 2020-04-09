@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="adf5d1ac-28d9-4f4c-a2ea-730938daff82" name="x94_global" url="http://vh192.timeweb.ru">
+        <fileTransfer host="vh192.timeweb.ru" port="22" rootFolder="/home/c/cc66283/x94/public_html" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
