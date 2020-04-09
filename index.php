@@ -16,7 +16,9 @@ if( preg_match( "/{$_SERVER['SERVER_NAME']}:([^,]*)/", $r301, $go )){
 }
 
 // Настройки базы, прочие дефолты
-include_once( 'set_up.php' );
+file_get_contents( 'set_up.json' );
+
+exit();
 
 // Вытаскиваю домен, тему
 // $db_city = new mysqli( NULL );
