@@ -15,7 +15,7 @@ if( preg_match( "/{$_SERVER['SERVER_NAME']}:([^,]*)/", $r301, $go )){
 }
 
 // Вытаскиваю домен, тему
-$db_city = new mysqli( NULL );
+// $db_city = new mysqli( NULL );
 
 // Настройки темы
 $ws = new WebSite();
