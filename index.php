@@ -16,34 +16,49 @@ if( preg_match( "/{$_SERVER['SERVER_NAME']}:([^,]*)/", $r301, $go )){
 }
 
 // Настройки базы, прочие дефолты
-include_once("set_up.php")
+include_once("set_up.php");
 
-// Настройки темы
+// ИНИТ
 $ws = new WebSite( $db );
 $ws->show_set();
 
 class WebSite{
 
-    // Настройки сайта
-    public $set_arr;
+    public $sa;        // Site Array Настройки сайта
+    public $pa;        // Page Array Настройки запрошенной страницы
+    public $url;       // Урл из REQUEST_URI
 
-    function __construct( $db )
-    {
-        $this->set_arr = $db->query("select * from `cities` as c, `themes` as t where t.theme_en = c.theme_en AND c.`domain`='{$_SERVER['SERVER_NAME']}'")->fetch_array( MYSQLI_ASSOC );
-        if(empty( $this->set_arr )) exit("Ошибка: Этот сайт пока не работает");
-    }
-
-    // Выводит настройки сайта
+   // Выводит настройки сайта
     function show_set(){
         echo "<!--DEBUG";
-        print_r( $this->set_arr );
+        print_r( $this->sa );
         echo "-->";
     }
 
+    // Достаю настройки сайта, темы и самой страницы
+    function __construct( $db )
+    {
+        // Этот экземпляр сайта
+        $this->sa = $db->query("select * from `sites` as c, `themes` as t where t.theme_en = c.theme_en AND c.`domain`='{$_SERVER['SERVER_NAME']}'")->fetch_array( MYSQLI_ASSOC );
+        if(empty( $this->sa )) exit("Ошибка: Этот сайт пока не работает");
+
+        // Эта страница
+        $this->url = ( !empty( $_REQUEST["p"] ) ? $_REQUEST["p"] : "main" );
+
+        // Настройки страницы
+        $this->pa = $db->query("select * from `{$this->sa['country']}_{$this->sa['theme_en']}_pages` where `url`='{$this->url}'");
+
+        // Robots.txt // SiteMap.xml
+        // !! Сделай что нибудь поумнее, это не правильно
+        if ( $this->url == "robots.txt" ){ include_once( "inc/_robots.php" ); exit; }
+        if ( $this->url == "sitemap.xml" ){ include_once( "inc/_sitemap.php" ); exit; }
+
+    }
+
 }
-// $db_data = new mysqli( "localhost", "cc66283_{$set_arr['theme_en']}", "PRO_cc66283", "cc66283_{$set_arr['theme_en']}" );
+// $db_data = new mysqli( "localhost", "cc66283_{$sa['theme_en']}", "PRO_cc66283", "cc66283_{$sa['theme_en']}" );
 
 
 // Дебаг, время/память
-echo "<!-- T: " . ( microtime(true) - $t_start ) . " sec-->\n";
-echo "<!-- T: " .(memory_get_usage() / 1000) . " sec-->";
+echo "\n<!-- Time: " . ( microtime(true) - $t_start ) . " sec-->";
+echo "\n<!-- Memo: " .(memory_get_usage() / 1000) . " Kb-->";
