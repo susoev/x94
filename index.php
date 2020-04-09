@@ -16,21 +16,28 @@ if( preg_match( "/{$_SERVER['SERVER_NAME']}:([^,]*)/", $r301, $go )){
 }
 
 // Настройки базы, прочие дефолты
-file_get_contents( 'set_up.json' );
-
-exit();
-
-// Вытаскиваю домен, тему
-// $db_city = new mysqli( NULL );
+include_once("set_up.php")
 
 // Настройки темы
-$ws = new WebSite();
+$ws = new WebSite( $db );
+$ws->show_set();
 
 class WebSite{
 
-    function __construct()
+    // Настройки сайта
+    public $set_arr;
+
+    function __construct( $db )
     {
-        
+        $this->set_arr = $db->query("select * from `cities` as c, `themes` as t where t.theme_en = c.theme_en AND c.`domain`='{$_SERVER['SERVER_NAME']}'")->fetch_array( MYSQLI_ASSOC );
+        if(empty( $this->set_arr )) exit("Ошибка: Этот сайт пока не работает");
+    }
+
+    // Выводит настройки сайта
+    function show_set(){
+        echo "<!--DEBUG";
+        print_r( $this->set_arr );
+        echo "-->";
     }
 
 }
