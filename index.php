@@ -7,6 +7,7 @@ ini_set( 'display_errors', 1 );
 $t_start = microtime(true );
 
 // Редиректы безусловные
+// !! ДОБАВЬ ПУТЬ
 $r301 = "rem273.ru:sm23.ru,hello.ru:goto.me";
 if( preg_match( "/{$_SERVER['SERVER_NAME']}:([^,]*)/", $r301, $go )){
     header("HTTP/1.1 301 Moved Permanently");
