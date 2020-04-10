@@ -6,12 +6,11 @@ ini_set( 'display_errors', 1 );
 // Замеряю время работы скрипта
 $t_start = microtime(true );
 
-// Редиректы безусловные
-// !! ДОБАВЬ ПУТЬ
-$r301 = "rem273.ru:sm23.ru,hello.ru:goto.me";
+// Редиректы безусловные // Сделай в какое то поле в базе, если пусто cname идем по адресу obl_im
+$r301 = "rem73.ru:sm23.ru,hello.ru:goto.me";
 if( preg_match( "/{$_SERVER['SERVER_NAME']}:([^,]*)/", $r301, $go )){
     header("HTTP/1.1 301 Moved Permanently");
-    header( "Location: https://{$go[1]}" );
+    header( "Location: https://{$go[1]}{$_SERVER['REQUEST_URI']}" );
     exit;
 }
 
@@ -42,7 +41,7 @@ class WebSite{
     public $ua;        // Url Array если чпу > 1 позиции
 
     // Собираю страничку
-    function inc_page(){
+    public function inc_page(){
 
         // Если один, подключаю и выхожу
         if($this->pa['stand_alone']){
@@ -98,7 +97,7 @@ class WebSite{
     }
 
     // Настройки страницы
-    function get_page(){
+    public function get_page(){
 
         if ( $this->url == "robots.txt" ) include_once( "inc/_robots.php" );
         if ( $this->url == "sitemap.xml" ) include_once( "inc/_sitemap.php" );
