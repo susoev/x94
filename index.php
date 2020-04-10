@@ -18,46 +18,105 @@ if( preg_match( "/{$_SERVER['SERVER_NAME']}:([^,]*)/", $r301, $go )){
 // Настройки базы, прочие дефолты
 include_once("set_up.php");
 
-// ИНИТ
+// ИНИТ, добывает сайт
 $ws = new WebSite( $db );
+
+// Добывает страницу
+$ws->get_page();
+
+// Дебаг
 $ws->show_set();
 
 class WebSite{
 
+    public $db;
     public $sa;        // Site Array Настройки сайта
     public $pa;        // Page Array Настройки запрошенной страницы
     public $url;       // Урл из REQUEST_URI
+    public $ua;        // Url Array если чпу > 1 позиции
+
+    // Переписывает замены, прохожу по настройкам, если встречает $, переписывает
+    function set_replacer($arr){
+
+        foreach ( $arr as $key => $val){
+
+            // Флаг изменения
+            $changed = false;
+
+            // Переписываю цифры #900 руб.
+            if( preg_match_all( '/#([0-9]{2,})/', $val, $m ) ){
+                foreach( $m[1] as $v0 ) $val = preg_replace( "/#{$v0}/", ceil( ( 1 + 0.001 * $this->sa['ko'] ) * $v0 ), $val );
+                $changed = true;
+            }
+
+            // Переписываю месяцы вида #mod/#mor месяц в дательном падеже
+            // if( preg_match( '/#mo([r|d])/', $val, $matches ) ) $string = str_replace( $matches[0], ThisMo( $matches[1] ), $string );
+
+            // Подмены из настроек
+            if(preg_match('/\$/', $val )){
+                foreach ( $this->sa as $k => $v ) $val = str_replace("\${$k}", $v, $val);
+                $changed = true;
+            }
+
+            if($changed) $arr[$key] = $val;
+
+        }
+
+        return $arr;
+    }
+
+    // Настройки страницы
+    function get_page(){
+
+        // Сначала пробует весь чпу как есть
+        $pa = $this->db->query("select * from `{$this->sa['country']}_{$this->sa['theme']}_pages` where `url`='{$this->url}'")->fetch_array( MYSQLI_ASSOC );
+
+        // Если нет результата и есть чпу, пробует ЧПУ по частям достает product из product/exact_product
+        if(empty($pa) && (!empty($this->ua)))
+            $pa = $this->db->query("select * from `{$this->sa['country']}_{$this->sa['theme']}_pages` where `url`='{$this->ua[0]}'")->fetch_array( MYSQLI_ASSOC );
+
+        // Если нет результата, 404
+        if(empty($pa))
+            $pa = $this->db->query("select * from `{$this->sa['country']}_{$this->sa['theme']}_pages` where `url`='404'")->fetch_array( MYSQLI_ASSOC );
+
+        // Переписываю подмены
+        $this->pa = $this->set_replacer($pa);
+
+        // Robots.txt // SiteMap.xml
+        // !! Сделай что нибудь поумнее, для 404, product и gallery сделайй что то
+        // if ( $this->url == "robots.txt" ){ include_once( "inc/_robots.php" ); exit; }
+        // if ( $this->url == "sitemap.xml" ){ include_once( "inc/_sitemap.php" ); exit; }
+    }
 
    // Выводит настройки сайта
     function show_set(){
-        echo "<!--DEBUG";
+        echo "<!--DEBUG\n";
+        print_r( $this->ua );
+        print_r( $this->url );
+        print_r( $this->pa );
         print_r( $this->sa );
-        echo "-->";
+        echo "\n-->";
     }
 
-    // Достаю настройки сайта, темы и самой страницы
+    // Достает настройки сайта, темы и самой страницы
     function __construct( $db )
     {
-        // Этот экземпляр сайта
-        $this->sa = $db->query("select * from `sites` as c, `themes` as t where t.theme_en = c.theme_en AND c.`domain`='{$_SERVER['SERVER_NAME']}'")->fetch_array( MYSQLI_ASSOC );
-        if(empty( $this->sa )) exit("Ошибка: Этот сайт пока не работает");
+        $this->db = $db;
 
-        // Эта страница
+        // Этот экземпляр сайта
+        $this->sa = $db->query("select * from `sites` as c, `themes` as t where t.theme = c.theme AND c.`domain`='{$_SERVER['SERVER_NAME']}'")->fetch_array( MYSQLI_ASSOC );
+        if(empty( $this->sa )) exit("Ошибка: Этот сайт пока не работает");
+        $this->sa = $this->set_replacer($this->sa);
+
+        // ЧПУ Эта страница
         $this->url = ( !empty( $_REQUEST["p"] ) ? $_REQUEST["p"] : "main" );
 
-        // Настройки страницы
-        $this->pa = $db->query("select * from `{$this->sa['country']}_{$this->sa['theme_en']}_pages` where `url`='{$this->url}'");
-
-        // Robots.txt // SiteMap.xml
-        // !! Сделай что нибудь поумнее, это не правильно
-        if ( $this->url == "robots.txt" ){ include_once( "inc/_robots.php" ); exit; }
-        if ( $this->url == "sitemap.xml" ){ include_once( "inc/_sitemap.php" ); exit; }
+        // ЧПУ разделяет REQUEST_URI
+        if( preg_match('/\//', $this->url )) $this->ua = explode("/", $this->url);
 
     }
 
 }
-// $db_data = new mysqli( "localhost", "cc66283_{$sa['theme_en']}", "PRO_cc66283", "cc66283_{$sa['theme_en']}" );
-
 
 // Дебаг, время/память
 echo "\n<!-- Time: " . ( microtime(true) - $t_start ) . " sec-->";
