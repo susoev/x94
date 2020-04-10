@@ -18,7 +18,7 @@ if( preg_match( "/{$_SERVER['SERVER_NAME']}:([^,]*)/", $r301, $go )){
 // Настройки базы, прочие дефолты
 include_once("set_up.php");
 
-// ИНИТ, добывает сайт
+// Добывает сайт
 $ws = new WebSite( $db );
 
 // Подключает языковые настройки
@@ -26,6 +26,9 @@ include_once("src/lang_{$ws->sa['country']}.php");
 
 // Добывает страницу
 $ws->get_page();
+
+// Рисует страницу
+$ws->inc_page();
 
 // Дебаг
 $ws->show_set();
@@ -38,12 +41,30 @@ class WebSite{
     public $url;       // Урл из REQUEST_URI
     public $ua;        // Url Array если чпу > 1 позиции
 
-    // + Принимает падеж в котором нужно возвращать текущий месяц
-    function this_month( $pa ){
+    // Собираю страничку
+    function inc_page(){
 
-        //$mo = array( 'd' => array( '01' => 'Январе', '02' => 'Феврале', '03' => 'Марте', '04' => 'Апреле', '05' => 'Мае', '06' => 'Июне', '07' => 'Июле', '08' => 'Августе', '09' => 'Сентябре', '10' => 'Октябре', '11' => 'Ноябре', '12' => 'Декабре' ), 'r' => array( '01' => 'Января', '02' => 'Февраля', '03' => 'Марта', '04' => 'Апреля', '05' => 'Мая', '06' => 'Июня', '07' => 'Июля', '08' => 'Августа', '09' => 'Сентября', '10' => 'Октября', '11' => 'Ноября', '12' => 'Декабря' ) );
-        //return $mo[$pa][date("m")];
+        // Если один, подключаю и выхожу
+        if($this->pa['stand_alone']){
+            include_once( "inc/{$this->pa['fpath']}" );
+            exit;
+        }
+
+        include_once ("templates/default/header.php");
+        include_once ("templates/default/{$this->pa['fpath']}.php");
+        include_once ("templates/default/footer.php");
+
         return true;
+    }
+
+    function get_product(){
+        return false;
+    }
+
+    // Выдаёт текущий месяц в нужном падеже
+    function this_month( $pa ){
+        global $mon_arr;
+        return $mon_arr[$pa][date("m")];
 
     }
 
@@ -52,27 +73,24 @@ class WebSite{
 
         foreach ( $arr as $key => $val){
 
-            // Флаг изменения
-            $changed = false;
-
             // Переписываю цифры #900 руб.
-            if( preg_match_all( '/#([0-9]{2,})/', $val, $m ) ){
+            if( preg_match_all( '/#([0-9]{2,})/', $val, $m ) )
                 foreach( $m[1] as $v0 ) $val = preg_replace( "/#{$v0}/", ceil( ( 1 + 0.001 * $this->sa['ko'] ) * $v0 ), $val );
-                $changed = true;
-            }
+
 
             // Переписываю месяцы вида #mod/#mor месяц в дательном падеже
-            if( preg_match( '/#mo([r|d])/', $val, $matches ) ){
+            if( preg_match( '/#mo([r|d])/', $val, $matches ) )
                 $val = str_replace( $matches[0], $this->this_month( $matches[1] ), $val );
-            }
 
             // Подмены из настроек
-            if(preg_match('/\$/', $val )){
+            if(preg_match('/\$/', $val ))
                 foreach ( $this->sa as $k => $v ) $val = str_replace("\${$k}", $v, $val);
-                $changed = true;
-            }
 
-            if($changed) $arr[$key] = $val;
+
+            // Переписываю год
+            $val = str_replace( "#y", date( "Y" ), $val );
+
+            $arr[$key] = $val;
 
         }
 
@@ -81,6 +99,12 @@ class WebSite{
 
     // Настройки страницы
     function get_page(){
+
+        if ( $this->url == "robots.txt" ) include_once( "inc/_robots.php" );
+        if ( $this->url == "sitemap.xml" ) include_once( "inc/_sitemap.php" );
+
+        // Продуктовая страница
+        if ( $this->url == "product" ) $this->get_product();
 
         // Сначала пробует весь чпу как есть
         $pa = $this->db->query("select * from `{$this->sa['country']}_{$this->sa['theme']}_pages` where `url`='{$this->url}'")->fetch_array( MYSQLI_ASSOC );
@@ -96,10 +120,8 @@ class WebSite{
         // Переписываю подмены
         $this->pa = $this->set_replacer($pa);
 
-        // Robots.txt // SiteMap.xml
-        // !! Сделай что нибудь поумнее, для 404, product и gallery сделайй что то
-        // if ( $this->url == "robots.txt" ){ include_once( "inc/_robots.php" ); exit; }
-        // if ( $this->url == "sitemap.xml" ){ include_once( "inc/_sitemap.php" ); exit; }
+
+        // !! Сделай что нибудь поумнее, для product и gallery сделайй что то
     }
 
    // Выводит настройки сайта
@@ -134,4 +156,4 @@ class WebSite{
 
 // Дебаг, время/память
 echo "\n<!-- Time: " . ( microtime(true) - $t_start ) . " sec-->";
-echo "\n<!-- Memo: " .(memory_get_usage() / 1000) . " Kb-->";
+echo "\n<!-- Memo: " .(memory_get_usage() / 1000000) . " Mb-->";
