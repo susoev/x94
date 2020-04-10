@@ -6,14 +6,6 @@ ini_set( 'display_errors', 1 );
 // Замеряю время работы скрипта
 $t_start = microtime(true );
 
-// Редиректы безусловные // Сделай в какое то поле в базе, если пусто cname идем по адресу obl_im
-$r301 = "rem73.ru:sm23.ru,hello.ru:goto.me";
-if( preg_match( "/{$_SERVER['SERVER_NAME']}:([^,]*)/", $r301, $go )){
-    header("HTTP/1.1 301 Moved Permanently");
-    header( "Location: https://{$go[1]}{$_SERVER['REQUEST_URI']}" );
-    exit;
-}
-
 // Настройки базы, прочие дефолты
 include_once("set_up.php");
 
@@ -140,7 +132,18 @@ class WebSite{
 
         // Этот экземпляр сайта
         $this->sa = $db->query("select * from `sites` as c, `themes` as t where t.theme = c.theme AND c.`domain`='{$_SERVER['SERVER_NAME']}'")->fetch_array( MYSQLI_ASSOC );
+
+        // Редирект на другой сайт, если есть настройка
+        if(empty($this->sa['cname'])){
+            header("HTTP/1.1 301 Moved Permanently");
+            header( "Location: {$this->sa['obl_im']}{$_SERVER['REQUEST_URI']}" );
+            exit;
+        }
+
+        // Если не находит сайта
         if(empty( $this->sa )) exit("Ошибка: Этот сайт пока не работает");
+
+       // Переписываю подмены
         $this->sa = $this->set_replacer($this->sa);
 
         // ЧПУ Эта страница
