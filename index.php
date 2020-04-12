@@ -32,6 +32,15 @@ class WebSite{
     public $url;       // Урл из REQUEST_URI
     public $ua;        // Url Array если чпу > 1 позиции
 
+    // Достаёт телефоны из пресета, и возвращает массив чистых
+    public function clean_phones(){
+
+        $arr = false;
+        if(isset($this->sa['phone_num'])) $arr['p'] = substr( preg_replace('/\D/', '', $this->sa['phone_code'] . $this->sa['phone_num'] ), -10 );
+        if(isset($this->sa['cell'])) $arr['c'] = substr( preg_replace('/\D/', '', $this->sa['cell'] ), -10 );
+        return $arr;
+    }
+
     // Собираю страничку
     public function inc_page(){
 
@@ -91,6 +100,13 @@ class WebSite{
     // Настройки страницы
     public function get_page(){
 
+        // ЧПУ Эта страница, непонимаю почему здесь
+        $this->url = ( !empty( $_REQUEST["p"] ) ? $_REQUEST["p"] : "main" );
+
+        // ЧПУ разделяет REQUEST_URI
+        if( preg_match('/\//', $this->url )) $this->ua = explode("/", $this->url);
+
+        // !! Сделай ретёрны, чтобы не отрабатывала дальше
         if ( $this->url == "robots.txt" ) include_once( "inc/_robots.php" );
         if ( $this->url == "sitemap.xml" ) include_once( "inc/_sitemap.php" );
 
@@ -111,8 +127,6 @@ class WebSite{
         // Переписываю подмены
         $this->pa = $this->set_replacer($pa);
 
-
-        // !! Сделай что нибудь поумнее, для product и gallery сделайй что то
     }
 
    // Выводит настройки сайта
@@ -136,8 +150,8 @@ class WebSite{
         // Редирект на другой сайт, если есть настройка
         if(empty($this->sa['cname'])){
             header("HTTP/1.1 301 Moved Permanently");
-            header( "Location: {$this->sa['obl_im']}{$_SERVER['REQUEST_URI']}" );
-            exit;
+            if(preg_match("/http/", $this->sa['obl_im'])) header( "Location: {$this->sa['obl_im']}{$_SERVER['REQUEST_URI']}" );
+            exit("Ошибка: сайт удалён");
         }
 
         // Если не находит сайта
@@ -146,11 +160,8 @@ class WebSite{
        // Переписываю подмены
         $this->sa = $this->set_replacer($this->sa);
 
-        // ЧПУ Эта страница
-        $this->url = ( !empty( $_REQUEST["p"] ) ? $_REQUEST["p"] : "main" );
-
-        // ЧПУ разделяет REQUEST_URI
-        if( preg_match('/\//', $this->url )) $this->ua = explode("/", $this->url);
+        // Добавляю очищенные телефоны
+        $this->sa['cp'] = $this->clean_phones();
 
     }
 

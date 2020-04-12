@@ -5,3 +5,8 @@ MultiDomain engine named x94cms works on any hosting supported old school but us
 - **all trackers** tags and metrics loads after user doing action eq scroll or tap screen
 - **onload_modal** mode with =modal_name param shows this modal window on page load
 - **empty cname** field plus **url in obl_im** field doing redirect to that url
+
+## Core
+### 
+- **ws::sa** Site Array - array of website preset, eq city, phones, emails, etc
+- **ws::cp** Clean Phones - array[c|p] ( cell, primary ) of cleaned phones 217888 instead 21 17-88
