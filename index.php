@@ -35,8 +35,11 @@ class WebSite{
     // Получает кавер картинку
     public function get_coverImg(){
 
-        // Отдельно для обычной страницы и для /product
+        // сначала смотрим кавер по урлу внутри самой темы
+        if( is_file( $img = "img/covers/{$this->sa['theme_id']}/{$this->url}.jpg" ) ) return "{$this->sa['bu']}/{$img}";
 
+        // Отдельно для обычной страницы и для /product
+        return $path;
     }
 
     // Достаёт телефоны из пресета, и возвращает массив чистых
@@ -92,7 +95,6 @@ class WebSite{
             // Подмены из настроек
             if(preg_match('/\$/', $val ))
                 foreach ( $this->sa as $k => $v ) $val = str_replace("\${$k}", $v, $val);
-
 
             // Переписываю год
             $val = str_replace( "#y", date( "Y" ), $val );
