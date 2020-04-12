@@ -9,4 +9,5 @@ MultiDomain engine named x94cms works on any hosting supported old school but us
 ## Core
 ### 
 - **ws::sa** Site Array - array of website preset, eq city, phones, emails, etc
-- **ws::cp** Clean Phones - array[c|p] ( cell, primary ) of cleaned phones 217888 instead 21 17-88
+- **ws::sa[cp]** Clean Phones - array[c|p] ( cell, primary ) of cleaned phones 217888 instead 21 17-88
+- **ws::sa[bu]** Base Url - http protocol + domain, w/o slash etc https://google.com

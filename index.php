@@ -32,6 +32,13 @@ class WebSite{
     public $url;       // Урл из REQUEST_URI
     public $ua;        // Url Array если чпу > 1 позиции
 
+    // Получает кавер картинку
+    public function get_coverImg(){
+
+        // Отдельно для обычной страницы и для /product
+
+    }
+
     // Достаёт телефоны из пресета, и возвращает массив чистых
     public function clean_phones(){
 
@@ -127,6 +134,15 @@ class WebSite{
         // Переписываю подмены
         $this->pa = $this->set_replacer($pa);
 
+        // Базовый урл
+        $this->sa['bu'] = $this->sa['http'] . $this->sa['domain'];
+
+        // Логотип, если нет своего - использует общий
+        $this->sa['lu'] = "/img/logo/{$this->sa['theme']}/{$this->sa['site_id']}.png";
+        if(!is_file($_SERVER['DOCUMENT_ROOT'] . $this->sa['lu'])) $this->sa['lu'] = "/img/logo/{$this->sa['theme_id']}/logo.png";
+
+        // Cover Image такая же история, только заношу в переменную страницы( pa )
+        $this->sa['ci'] = get_coverImg();
     }
 
    // Выводит настройки сайта
