@@ -1,10 +1,7 @@
 <?php
 
-error_reporting( E_ALL );
-ini_set( 'display_errors', 1 );
-
-// Замеряю время работы скрипта
-$t_start = microtime(true );
+// Вывод ошибок, замеры работы скрипта
+error_reporting( E_ALL ); ini_set( 'display_errors', 1 ); $t_start = microtime(true );
 
 // Настройки базы, прочие дефолты
 include_once("set_up.php");
@@ -18,8 +15,9 @@ include_once("src/lang_{$ws->sa['country']}.php");
 // Добывает страницу
 $ws->get_page();
 
-// Рисует страницу
-$ws->inc_page();
+if(empty($ws->sa['stand_alone'])) include_once ("templates/default/header.php");
+include_once ($ws->inc_page());
+if(empty($ws->sa['stand_alone'])) include_once ("templates/default/header.php");
 
 // Дебаг
 $ws->show_set();
@@ -32,16 +30,25 @@ class WebSite{
     public $url;       // Урл из REQUEST_URI
     public $ua;        // Url Array если чпу > 1 позиции
 
-    // !! Получение фавика, кавера
+    // !! Получение фавика, кавера, логотипа, сделай одной функцией
+    // !! Убери пути в переменные в настройки
+
+    // Оплата сайта
+    public function is_paid(){
+        return ( time() - strtotime( "last day of {$this->sa['paid_till']}" ) - 529200 ) < 0 ? true : false;
+    }
 
     // Получает кавер картинку
     public function get_coverImg(){
 
         // сначала смотрим кавер по урлу внутри самой темы
-        if( is_file( $img = "img/covers/{$this->sa['theme_id']}/{$this->url}.jpg" ) ) return "{$this->sa['bu']}/{$img}";
+        if( is_file( $img = "img/covers/{$this->sa['theme_id']}/{$this->url}.jpg" ) ) return "{$this->sa['bu']}{$img}";
+
+        // Для product
+        if( $this->url == ['product'] && is_file( $img = "img/products/{$this->sa['theme_id']}/big/{$this->pa['product_id']}.jpg" ) ) return "{$this->sa['bu']}{$img}";
 
         // Отдельно для обычной страницы и для /product
-        return $path = false;
+        return "{$this->sa['bu']}img/covers/main.jpg";
     }
 
     // Достаёт телефоны из пресета, и возвращает массив чистых
@@ -56,17 +63,8 @@ class WebSite{
     // Собираю страничку
     public function inc_page(){
 
-        // Если один, подключаю и выхожу
-        if($this->pa['stand_alone']){
-            include_once( "inc/{$this->pa['fpath']}" );
-            exit;
-        }
-
-        include_once ("templates/default/header.php");
-        include_once ("templates/default/{$this->pa['fpath']}.php");
-        include_once ("templates/default/footer.php");
-
-        return true;
+        if(!is_file("templates/default/{$this->pa['fpath']}.php")) return "_no_inc.php";
+        return "{$this->pa['fpath']}.php";
     }
 
     function get_product(){
@@ -105,9 +103,10 @@ class WebSite{
             // Json переменные, которые сразу преобразую в массив
             if( in_array($key, $json_replace)){
 
-                if(is_string($val))
-                    $arr[$key] = json_decode( $val, true );
-                continue;
+                if(is_string($val)) {
+                    $arr[$key] = json_decode($val, true);
+                    continue;
+                }
             }
 
             // Переписываю цифры #900 руб.
@@ -139,28 +138,24 @@ class WebSite{
     // Настройки страницы
     public function get_page(){
 
-        // ЧПУ Эта страница, непонимаю почему здесь
-        $this->url = ( !empty( $_REQUEST["p"] ) ? $_REQUEST["p"] : "main" );
-
-        // ЧПУ разделяет REQUEST_URI
-        if( preg_match('/\//', $this->url )) $this->ua = explode("/", $this->url);
-
         // !! Сделай ретёрны, чтобы не отрабатывала дальше
         if ($this->url == "robots.txt" || $this->url == "sitemap.xml"){
             include_once( "inc/_{$this->url}.php" );
             exit;
         }
 
-
-        // Продуктовая страница
-        if ( $this->url == "product" ) $this->get_product();
+        // Продуктовая страница !! На этом этапе нужно подменять все МЕТА из продукта
+        if ( $this->url == "product" ){
+            $this->get_product();
+            return true;
+        }
 
         // Сначала пробует весь чпу как есть
         $pa = $this->db->query("select * from `{$this->sa['country']}_{$this->sa['theme']}_pages` where `url`='{$this->url}'")->fetch_array( MYSQLI_ASSOC );
 
         // Если нет результата и есть чпу, пробует ЧПУ по частям достает product из product/exact_product
-        if(empty($pa) && (!empty($this->ua)))
-            $pa = $this->db->query("select * from `{$this->sa['country']}_{$this->sa['theme']}_pages` where `url`='{$this->ua[0]}'")->fetch_array( MYSQLI_ASSOC );
+        // if(empty($pa) && (!empty($this->ua)))
+            // $pa = $this->db->query("select * from `{$this->sa['country']}_{$this->sa['theme']}_pages` where `url`='{$this->ua[0]}'")->fetch_array( MYSQLI_ASSOC );
 
         // Если нет результата, 404
         if(empty($pa))
@@ -173,10 +168,10 @@ class WebSite{
         $this->self_replacer();
 
         // Базовый урл
-        $this->sa['bu'] = $this->sa['http'] . $this->sa['domain'];
+        $this->sa['bu'] = $this->sa['http'] . $this->sa['domain'] . "/";
 
         // Логотип, если нет своего - использует общий
-        $this->sa['lu'] = "/img/logo/{$this->sa['theme']}/{$this->sa['site_id']}.png";
+        $this->sa['lu'] = "/img/logo/{$this->sa['theme_id']}/{$this->sa['site_id']}.png";
         if(!is_file($_SERVER['DOCUMENT_ROOT'] . $this->sa['lu'])) $this->sa['lu'] = "/img/logo/{$this->sa['theme_id']}/logo.png";
 
         // Cover Image такая же история, только заношу в переменную страницы( pa )
@@ -186,7 +181,7 @@ class WebSite{
    // Выводит настройки сайта
     function show_set(){
         echo "<!--DEBUG\n";
-        print_r( $this->ua );
+        // print_r( $this->ua );
         print_r( $this->url );
         print_r( $this->pa );
         print_r( $this->sa );
@@ -216,6 +211,17 @@ class WebSite{
 
         // Добавляю очищенные телефоны
         $this->sa['cp'] = $this->clean_phones();
+
+        // Оплата за сайт
+        $this->sa['ip'] = $this->is_paid();
+
+        // ЧПУ Эта страница, непонимаю почему здесь
+        $this->url = ( !empty( $_REQUEST["p"] ) ? $_REQUEST["p"] : "main" );
+
+        // ЧПУ разделяет REQUEST_URI
+        if( preg_match('/\//', $this->url )){
+            $this->ua = explode("/", $this->url);
+        }
 
     }
 

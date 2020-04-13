@@ -7,7 +7,8 @@ MultiDomain engine named x94cms works on any hosting supported old school but us
 - **empty cname** field plus **url in obl_im** field doing redirect to that url
 
 ## Core
-### 
+### Vars
 - **ws::sa** Site Array - array of website preset, eq city, phones, emails, etc
 - **ws::sa[cp]** Clean Phones - array[c|p] ( cell, primary ) of cleaned phones 217888 instead 21 17-88
-- **ws::sa[bu]** Base Url - http protocol + domain, w/o slash etc https://google.com
+- **ws::sa[bu]** Base Url - http protocol + domain, with slash etc https://google.com/
+- **ws::ip** Is Paid. Means website paid or not, true | false
