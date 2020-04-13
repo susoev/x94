@@ -32,6 +32,8 @@ class WebSite{
     public $url;       // Урл из REQUEST_URI
     public $ua;        // Url Array если чпу > 1 позиции
 
+    // !! Получение фавика, кавера
+
     // Получает кавер картинку
     public function get_coverImg(){
 
@@ -39,7 +41,7 @@ class WebSite{
         if( is_file( $img = "img/covers/{$this->sa['theme_id']}/{$this->url}.jpg" ) ) return "{$this->sa['bu']}/{$img}";
 
         // Отдельно для обычной страницы и для /product
-        return $path;
+        return $path = false;
     }
 
     // Достаёт телефоны из пресета, и возвращает массив чистых
@@ -78,10 +80,35 @@ class WebSite{
 
     }
 
+    // Переписывает замены внутри себя же, для метатегов страниц
+    public function self_replacer(){
+
+        // Прохожу по каждому элементу массива
+        foreach ( $this->pa as $key => $val ){
+
+            // Для каждого значения прохожу по массиву // И делаю замены
+            foreach( $this->pa as $param => $replace_to ) $val = str_replace( "$" . $param, $replace_to, $val );
+
+            $this->pa[$key] = $val;
+        }
+
+        return true;
+    }
+
     // Переписывает замены, прохожу по настройкам, если встречает $, переписывает
     function set_replacer($arr){
 
+        global $json_replace;
+
         foreach ( $arr as $key => $val){
+
+            // Json переменные, которые сразу преобразую в массив
+            if( in_array($key, $json_replace)){
+
+                if(is_string($val))
+                    $arr[$key] = json_decode( $val, true );
+                continue;
+            }
 
             // Переписываю цифры #900 руб.
             if( preg_match_all( '/#([0-9]{2,})/', $val, $m ) )
@@ -94,7 +121,10 @@ class WebSite{
 
             // Подмены из настроек
             if(preg_match('/\$/', $val ))
-                foreach ( $this->sa as $k => $v ) $val = str_replace("\${$k}", $v, $val);
+                foreach ( $this->sa as $k => $v ){
+                    if(!is_string($v)) continue;
+                    $val = str_replace("\${$k}", $v, $val);
+                }
 
             // Переписываю год
             $val = str_replace( "#y", date( "Y" ), $val );
@@ -116,8 +146,11 @@ class WebSite{
         if( preg_match('/\//', $this->url )) $this->ua = explode("/", $this->url);
 
         // !! Сделай ретёрны, чтобы не отрабатывала дальше
-        if ( $this->url == "robots.txt" ) include_once( "inc/_robots.php" );
-        if ( $this->url == "sitemap.xml" ) include_once( "inc/_sitemap.php" );
+        if ($this->url == "robots.txt" || $this->url == "sitemap.xml"){
+            include_once( "inc/_{$this->url}.php" );
+            exit;
+        }
+
 
         // Продуктовая страница
         if ( $this->url == "product" ) $this->get_product();
@@ -136,6 +169,9 @@ class WebSite{
         // Переписываю подмены
         $this->pa = $this->set_replacer($pa);
 
+        // Переписываю подмены внутри метатегов
+        $this->self_replacer();
+
         // Базовый урл
         $this->sa['bu'] = $this->sa['http'] . $this->sa['domain'];
 
@@ -144,7 +180,7 @@ class WebSite{
         if(!is_file($_SERVER['DOCUMENT_ROOT'] . $this->sa['lu'])) $this->sa['lu'] = "/img/logo/{$this->sa['theme_id']}/logo.png";
 
         // Cover Image такая же история, только заношу в переменную страницы( pa )
-        $this->sa['ci'] = get_coverImg();
+        $this->sa['ci'] = $this->get_coverImg();
     }
 
    // Выводит настройки сайта
