@@ -228,11 +228,12 @@ class User{
     public function get_user(){
 
         // Если кука установлена
-        if(!empty($_COOKIE['x94_user'])) return $this->db->query("select * from `users` where `token`='{$_COOKIE['x94_user']}'")->fetch_array( MYSQLI_ASSOC );
+        // if(!empty($_COOKIE['x94_user'])) return $this->db->query("select * from `users` where `token`='{$_COOKIE['x94_user']}'")->fetch_array( MYSQLI_ASSOC );
 
         // Если пришел с паролем с этого же сайта
         // if(!empty($_POST['paswd']) && preg_match("/{$_SERVER['SERVER_NAME']}/", $_SERVER['HTTP_REFERER']))
 
+        print_r($_COOKIE);
         return false;
     }
 

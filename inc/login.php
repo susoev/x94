@@ -41,7 +41,7 @@
     echo $hdr;
     ?>
 
-    <form action='login/do_login' method='POST'>
+    <form action='/login/do_login' method='POST'>
         <label><? echo $ws->la['login_login']; ?></label>
         <input type='text' name='phn' />
         <label><? echo $ws->la['login_paswd']; ?>:</label>
