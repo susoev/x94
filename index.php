@@ -222,10 +222,11 @@ class WebSite{
 class User{
 
     public $db;
+    public $ua;
 
     // Достаёт информацию по пользователю, возвращает массив
     public function get_user(){
-        $ua = $this->db->query("select * from `{$this->sa['country']}_{$this->sa['theme']}_pages` where `url`='404'")->fetch_array( MYSQLI_ASSOC );
+        return $this->db->query("select * from `users` where `token`='{$_COOKIE['x94_user']}'")->fetch_array( MYSQLI_ASSOC );
     }
 
     // Смотрит на наличие куки
@@ -233,6 +234,7 @@ class User{
         global $db;
 
         $this->db = $db;
+        $this->ua = get_user();
     }
 }
 
@@ -246,7 +248,7 @@ include_once("set_up.php");
 $ws = new WebSite();
 
 // Если установлена кука, запускаю класс
-if(empty($_COOKIE['x94_user']))  $u = new User();
+if(!empty($_COOKIE['x94_user']))  $u = new User();
 
 // Добывает страницу
 $ws->get_page();

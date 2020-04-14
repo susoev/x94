@@ -10,12 +10,11 @@ unset( $_COOKIE['usr_phn'] );
 
 if( isset( $_COOKIE['usr_phn'] ) ) log_out();
 
-include_once ("lang/{$ws->sa['country']}.php");
 ?><!DOCTYPE html>
 <html lang='<? echo $ws->sa['country']; ?>'>
 <head>
     <meta charset='utf-8'>
-    <title>Авторизация</title>
+    <title><? echo $ws->la['login_title']; ?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <style>
         *{font-family: Verdana;}
@@ -29,19 +28,23 @@ include_once ("lang/{$ws->sa['country']}.php");
 </head>
 <body>
 <div class='container'>
-    <? echo $hdr = isset( $_REQUEST['err'] ) ? "<h3 class='text-danger'>" . show_error( $_REQUEST['err'] ) . "</h3>" : "<h3>Вы не авторизованы</h3>"; ?>
-        <form action='login/do_login' method='POST'>
-            <label><? echo $la['login_login']; ?></label>
-            <input type='text' name='phn' />
-            <label><? echo $la['login_paswd']; ?>:</label>
-            <input type='text' name='pas' />
-            <input type='submit' value='<? echo $la['btn_send']; ?>' >
-        </form>
-        <ul>
-            <li><a class='mt-4' href='/login/reg'><? echo $la['lnk_register']; ?></a></li>
-            <li><a class='mt-4' href='/'><? echo $la['lnk_main']; ?></a></li>
-            <li><a href='/get_help'><? echo $la['lnk_support']; ?></a></li>
-        </ul>
+    <?
+    $hdr = isset( $_REQUEST['err'] ) ? "<h3 class='text-danger'>Вывод ошибки авторизации</h3>" : "<h3>{$ws->la['login_inauth']}</h3>";
+    echo $hdr;
+    ?>
+
+    <form action='login/do_login' method='POST'>
+        <label><? echo $ws->la['login_login']; ?></label>
+        <input type='text' name='phn' />
+        <label><? echo $ws->la['login_paswd']; ?>:</label>
+        <input type='text' name='pas' />
+        <input type='submit' value='<? echo $ws->la['btn_send']; ?>' >
+    </form>
+    <ul>
+        <li><a class='mt-4' href='/login/reg'><? echo $ws->la['lnk_register']; ?></a></li>
+        <li><a class='mt-4' href='/'><? echo $ws->la['lnk_main']; ?></a></li>
+        <li><a href='/get_help'><? echo $ws->la['lnk_support']; ?></a></li>
+    </ul>
 </div>
 
 <script>
@@ -60,5 +63,3 @@ include_once ("lang/{$ws->sa['country']}.php");
 </script>
 </body>
 </html>
-<?php echo "\n------\n";
-print_r(get_defined_vars());

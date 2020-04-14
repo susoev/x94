@@ -73,3 +73,4 @@
     <!-- JSON START -->
     <!-- JSON END -->
 </head>
+<? if(empty($u)) echo "<a href='/login'>Логин</a>"; ?>
