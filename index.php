@@ -174,7 +174,7 @@ class WebSite{
 
     // Достает настройки сайта, темы и самой страницы
     function __construct(){
-        global $db;
+        global $db, $la;
         $this->db = $db;
 
         // Этот экземпляр сайта
@@ -189,6 +189,9 @@ class WebSite{
 
         // Если не находит сайта
         if(empty( $this->sa )) exit("Ошибка: Этот сайт пока не работает");
+
+        // Языковой пакет
+        $this->la = $la[$this->sa['country']];
 
        // Переписываю подмены
         $this->sa = $this->set_replacer($this->sa);
@@ -230,7 +233,6 @@ class User{
         global $db;
 
         $this->db = $db;
-        echo "Class_User";
     }
 }
 
@@ -244,7 +246,7 @@ include_once("set_up.php");
 $ws = new WebSite();
 
 // Если установлена кука, запускаю класс
-if(!empty($_COOKIE['x94_user'])) $u = new User();
+if(empty($_COOKIE['x94_user']))  $u = new User();
 
 // Добывает страницу
 $ws->get_page();
