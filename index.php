@@ -224,9 +224,31 @@ class User{
     public $db;
     public $ua;
 
-    // Достаёт информацию по пользователю, возвращает массив
+    // Получает данные по пользователю
     public function get_user(){
-        return $this->db->query("select * from `users` where `token`='{$_COOKIE['x94_user']}'")->fetch_array( MYSQLI_ASSOC );
+
+        // Если кука установлена
+        if(!empty($_COOKIE['x94_user'])) return $this->db->query("select * from `users` where `token`='{$_COOKIE['x94_user']}'")->fetch_array( MYSQLI_ASSOC );
+
+        // Если пришел с паролем с этого же сайта
+        // if(!empty($_POST['paswd']) && preg_match("/{$_SERVER['SERVER_NAME']}/", $_SERVER['HTTP_REFERER']))
+
+        return false;
+    }
+
+    public function do_login(){
+
+        // Ошибка логина
+        $success = "nope";
+
+        // Оставляю только 16ричные
+        if( $this->db->query("select `user_id` from `user` where `paswd`='" . md5($_POST['paswd'] ) . "'")->fetch_array( MYSQLI_ASSOC ) ){
+            setcookie( 'x94_user', "token_hash", time() + 60*60, "/" );
+            $success = "done";
+        }
+
+        header("Location: /login/{$success}");
+        exit;
     }
 
     // Смотрит на наличие куки
@@ -234,8 +256,9 @@ class User{
         global $db;
 
         $this->db = $db;
-        // Закончил
-        $this->ua = get_user();
+
+        // Достаёт информацию по пользователю, возвращает массив
+        $this->ua = $this->get_user();
     }
 }
 

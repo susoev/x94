@@ -1,14 +1,22 @@
 <?
 
+        // Запускаю класс
+        if(empty($u)) $u = new User();
+
+        // Если это манипуляции вида логин/разлогин
+        if(!empty($ws->ua[1]) && $ws->ua[1] == "do_login") $u->do_login();
     /*
      * Использую куку x94_user = hash, hash = salt + pass
      *
      */
-unset( $GLOBALS['usr'] );
-setcookie( 'usr_phn', null, -1 );
-unset( $_COOKIE['usr_phn'] );
 
-if( isset( $_COOKIE['usr_phn'] ) ) log_out();
+//
+//setcookie( 'x94_user', null, -1 );
+//unset( $_COOKIE['x94_user'] );
+//
+//if( isset( $_COOKIE['usr_phn'] ) ) log_out();
+
+
 
 ?><!DOCTYPE html>
 <html lang='<? echo $ws->sa['country']; ?>'>
@@ -37,7 +45,7 @@ if( isset( $_COOKIE['usr_phn'] ) ) log_out();
         <label><? echo $ws->la['login_login']; ?></label>
         <input type='text' name='phn' />
         <label><? echo $ws->la['login_paswd']; ?>:</label>
-        <input type='text' name='pas' />
+        <input type='text' name='paswd' />
         <input type='submit' value='<? echo $ws->la['btn_send']; ?>' >
     </form>
     <ul>
