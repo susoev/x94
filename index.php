@@ -234,6 +234,7 @@ class User{
         global $db;
 
         $this->db = $db;
+        // Закончил
         $this->ua = get_user();
     }
 }
