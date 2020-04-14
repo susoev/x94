@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
+<html lang="<? echo $ws->sa['country']; ?>" prefix="og: http://ogp.me/ns# website: http://ogp.me/ns/website#">
 <head>
     <!-- ВСЕ ВОПРОСЫ ПО ТЕХНИЧКЕ -->
     <!-- В телеграм @susoev_taras -->

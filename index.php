@@ -3,6 +3,7 @@
 class WebSite{
 
     public $db;
+    public $la;        // Language Array языковой пакет
     public $sa;        // Site Array Настройки сайта
     public $pa;        // Page Array Настройки запрошенной страницы
     public $url;       // Урл из REQUEST_URI
@@ -53,8 +54,7 @@ class WebSite{
 
     // Выдаёт текущий месяц в нужном падеже
     function this_month( $pa ){
-        global $mon_arr;
-        return $mon_arr[$pa][date("m")];
+        return $this->la['month_arr'][$pa][date("m")];
 
     }
 
@@ -119,10 +119,11 @@ class WebSite{
     // Настройки страницы
     public function get_page(){
 
-        // !! Сделай ретёрны, чтобы не отрабатывала дальше
-        if ($this->url == "robots.txt" || $this->url == "sitemap.xml"){
-            include_once( "inc/_{$this->url}.php" );
-            exit;
+        // !! Сделай исключения в массив
+        if ($this->url == "robots.txt" || $this->url == "sitemap.xml" || $this->url == "login" || $this->ua[0] == "login"){
+            $this->pa['fpath'] = $this->ua[0] . ".php";
+            $this->sa['stand_alone'] = 1;
+            return true;
         }
 
         // Продуктовая страница !! На этом этапе нужно подменять все МЕТА из продукта
@@ -133,10 +134,6 @@ class WebSite{
 
         // Сначала пробует весь чпу как есть
         $pa = $this->db->query("select * from `{$this->sa['country']}_{$this->sa['theme']}_pages` where `url`='{$this->url}'")->fetch_array( MYSQLI_ASSOC );
-
-        // Если нет результата и есть чпу, пробует ЧПУ по частям достает product из product/exact_product
-        // if(empty($pa) && (!empty($this->ua)))
-            // $pa = $this->db->query("select * from `{$this->sa['country']}_{$this->sa['theme']}_pages` where `url`='{$this->ua[0]}'")->fetch_array( MYSQLI_ASSOC );
 
         // Если нет результата, 404
         if(empty($pa))
@@ -176,8 +173,8 @@ class WebSite{
     }
 
     // Достает настройки сайта, темы и самой страницы
-    function __construct( $db )
-    {
+    function __construct(){
+        global $db;
         $this->db = $db;
 
         // Этот экземпляр сайта
@@ -205,8 +202,8 @@ class WebSite{
         // ЧПУ Эта страница, непонимаю почему здесь
         $this->url = ( !empty( $_REQUEST["p"] ) ? $_REQUEST["p"] : "main" );
 
-        // Если есть слешы в ЧПУ разделяет REQUEST_URI в массив
-        if( preg_match('/\//', $this->url )) $this->ua = explode("/", $this->url);
+        // Разделяет REQUEST_URI в массив
+        $this->ua = explode("/", $this->url);
 
         // Логотип, если нет своего - использует общий
         $this->sa['logo'] = "img/logo/{$this->sa['theme_id']}/{$this->sa['site_id']}.png";
@@ -219,6 +216,24 @@ class WebSite{
 
 }
 
+class User{
+
+    public $db;
+
+    // Достаёт информацию по пользователю, возвращает массив
+    public function get_user(){
+        $ua = $this->db->query("select * from `{$this->sa['country']}_{$this->sa['theme']}_pages` where `url`='404'")->fetch_array( MYSQLI_ASSOC );
+    }
+
+    // Смотрит на наличие куки
+    function __construct(){
+        global $db;
+
+        $this->db = $db;
+        echo "Class_User";
+    }
+}
+
 // Вывод ошибок, замеры работы скрипта
 error_reporting( E_ALL ); ini_set( 'display_errors', 1 ); $t_start = microtime(true );
 
@@ -226,16 +241,25 @@ error_reporting( E_ALL ); ini_set( 'display_errors', 1 ); $t_start = microtime(t
 include_once("set_up.php");
 
 // Добывает сайт
-$ws = new WebSite( $db );
+$ws = new WebSite();
 
-// Подключает языковые настройки
-include_once("src/lang_{$ws->sa['country']}.php");
+// Если установлена кука, запускаю класс
+if(!empty($_COOKIE['x94_user'])) $u = new User();
 
 // Добывает страницу
 $ws->get_page();
 
+// Подключаем голову
 if(empty($ws->sa['stand_alone'])) include_once ("templates/{$ws->pa['template']}/header.php");
-include_once ("templates/{$ws->pa['template']}/{$ws->inc_page()}.php");
+
+// Шаблон файла
+if(!empty($ws->pa['template'])){
+    include_once ("templates/{$ws->pa['template']}/{$ws->inc_page()}.php");
+
+// Или без шаблона
+} else {
+    include_once ("inc/{$ws->pa['fpath']}");
+}
 if(empty($ws->sa['stand_alone'])) include_once ("templates/{$ws->pa['template']}/footer.php");
 
 // Дебаг
