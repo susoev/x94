@@ -1,27 +1,5 @@
 <?php
 
-// Вывод ошибок, замеры работы скрипта
-error_reporting( E_ALL ); ini_set( 'display_errors', 1 ); $t_start = microtime(true );
-
-// Настройки базы, прочие дефолты
-include_once("set_up.php");
-
-// Добывает сайт
-$ws = new WebSite( $db );
-
-// Подключает языковые настройки
-include_once("src/lang_{$ws->sa['country']}.php");
-
-// Добывает страницу
-$ws->get_page();
-
-if(empty($ws->sa['stand_alone'])) include_once ("templates/default/header.php");
-include_once ($ws->inc_page());
-if(empty($ws->sa['stand_alone'])) include_once ("templates/default/header.php");
-
-// Дебаг
-$ws->show_set();
-
 class WebSite{
 
     public $db;
@@ -35,6 +13,8 @@ class WebSite{
 
     // Оплата сайта
     public function is_paid(){
+
+        // Проверяет через 6 дней после неоплаченного месяца
         return ( time() - strtotime( "last day of {$this->sa['paid_till']}" ) - 529200 ) < 0 ? true : false;
     }
 
@@ -63,8 +43,8 @@ class WebSite{
     // Собираю страничку
     public function inc_page(){
 
-        if(!is_file("templates/default/{$this->pa['fpath']}.php")) return "_no_inc.php";
-        return "{$this->pa['fpath']}.php";
+        if(!is_file("templates/{$this->pa['template']}/{$this->pa['fpath']}.php")) return "_no_inc";
+        return $this->pa['fpath'];
     }
 
     function get_product(){
@@ -96,6 +76,7 @@ class WebSite{
     // Переписывает замены, прохожу по настройкам, если встречает $, переписывает
     function set_replacer($arr){
 
+        // Настройки, которые нужно преобразовать в массив
         global $json_replace;
 
         foreach ( $arr as $key => $val){
@@ -170,12 +151,18 @@ class WebSite{
         // Базовый урл
         $this->sa['bu'] = $this->sa['http'] . $this->sa['domain'] . "/";
 
-        // Логотип, если нет своего - использует общий
-        $this->sa['lu'] = "/img/logo/{$this->sa['theme_id']}/{$this->sa['site_id']}.png";
-        if(!is_file($_SERVER['DOCUMENT_ROOT'] . $this->sa['lu'])) $this->sa['lu'] = "/img/logo/{$this->sa['theme_id']}/logo.png";
-
-        // Cover Image такая же история, только заношу в переменную страницы( pa )
+        // Cover Image
         $this->sa['ci'] = $this->get_coverImg();
+
+        // Тема
+        $this->pa['template'] = $this->get_template();
+    }
+
+    // Выбираю тему для сайта
+    public function get_template(){
+        if(!empty($this->pa['template'])) return $this->pa['template'];
+        if(!empty($this->sa['template'])) return $this->sa['template'];
+        return "default";
     }
 
    // Выводит настройки сайта
@@ -200,7 +187,7 @@ class WebSite{
         if(empty($this->sa['cname'])){
             header("HTTP/1.1 301 Moved Permanently");
             if(preg_match("/http/", $this->sa['obl_im'])) header( "Location: {$this->sa['obl_im']}{$_SERVER['REQUEST_URI']}" );
-            exit("Ошибка: сайт удалён");
+            exit("Ошибка: сайт переехал");
         }
 
         // Если не находит сайта
@@ -218,14 +205,41 @@ class WebSite{
         // ЧПУ Эта страница, непонимаю почему здесь
         $this->url = ( !empty( $_REQUEST["p"] ) ? $_REQUEST["p"] : "main" );
 
-        // ЧПУ разделяет REQUEST_URI
-        if( preg_match('/\//', $this->url )){
-            $this->ua = explode("/", $this->url);
-        }
+        // Если есть слешы в ЧПУ разделяет REQUEST_URI в массив
+        if( preg_match('/\//', $this->url )) $this->ua = explode("/", $this->url);
+
+        // Логотип, если нет своего - использует общий
+        $this->sa['logo'] = "img/logo/{$this->sa['theme_id']}/{$this->sa['site_id']}.png";
+        if(!is_file($this->sa['logo'])) $this->sa['logo'] = "/img/logo/{$this->sa['theme_id']}/logo.png";
+
+        // Фавикон, тоже самое
+        $this->sa['fd'] = is_dir( "img/favicon/{$this->sa['site_id']}" ) ? $this->sa['site_id'] : $this->sa['theme_id'];
 
     }
 
 }
+
+// Вывод ошибок, замеры работы скрипта
+error_reporting( E_ALL ); ini_set( 'display_errors', 1 ); $t_start = microtime(true );
+
+// Настройки базы, прочие дефолты
+include_once("set_up.php");
+
+// Добывает сайт
+$ws = new WebSite( $db );
+
+// Подключает языковые настройки
+include_once("src/lang_{$ws->sa['country']}.php");
+
+// Добывает страницу
+$ws->get_page();
+
+if(empty($ws->sa['stand_alone'])) include_once ("templates/{$ws->pa['template']}/header.php");
+include_once ("templates/{$ws->pa['template']}/{$ws->inc_page()}.php");
+if(empty($ws->sa['stand_alone'])) include_once ("templates/{$ws->pa['template']}/footer.php");
+
+// Дебаг
+// $ws->show_set();
 
 // Дебаг, время/память
 echo "\n<!-- Time: " . ( microtime(true) - $t_start ) . " sec-->";
