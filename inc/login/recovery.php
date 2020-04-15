@@ -1,6 +1,6 @@
 <h3><? echo $ws->la['lnk_recovery']; ?></h3>
 
-<form action='/login/do_reg' method='POST'>
+<form action='/login/do_recovery' method='POST'>
 
     <small class="text-danger"><? echo $ws->la['recovery_text']; ?></small>
 

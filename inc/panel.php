@@ -43,14 +43,15 @@ $top_menu = array('main','settings','orders','support','services');
         <div class="navbar-collapse collapse" id="navbarsExample05" style="">
             <ul class="navbar-nav mr-auto">
                 <?
-                    // Active ссылка
+                    // Класс active
+                    $active = !empty($ws->ua[1]) ? $ws->ua[1] : "main";
                     foreach ($top_menu as $v){
                         $lnk = "lnk_{$v}";
-                        echo "<li class='nav-item" . () . "'><a class='nav-link' href='/panel/{$v}'>{$ws->la[$lnk]}</a></li>";
+                        echo "<li class='nav-item ".( $active == $v ? "active" : null)."'><a class='nav-link' href='/panel/{$v}'>{$ws->la[$lnk]}</a></li>";
                     }
                 ?>
                 <li class='nav-item'>
-                    <a href='/login'>Выход</a>
+                    <a class="nav-link text-danger" href='/login'>Выход</a>
                 </li>
             </ul>
 

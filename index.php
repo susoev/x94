@@ -228,6 +228,8 @@ class User{
     public $db;
     public $ua;
 
+    // Восстановление пароля
+
     // Регистрация посетителя
     public function do_reg(){
 
