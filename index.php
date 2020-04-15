@@ -119,8 +119,10 @@ class WebSite{
     // Настройки страницы
     public function get_page(){
 
+        global $inc_pages;
+
         // !! Сделай исключения в массив
-        if ($this->url == "robots.txt" || $this->url == "sitemap.xml" || $this->url == "login" || $this->ua[0] == "login"){
+        if (in_array($this->url, $inc_pages) || in_array($this->ua[0], $inc_pages)){
             $this->pa['fpath'] = $this->ua[0] . ".php";
             $this->sa['stand_alone'] = 1;
             return true;
@@ -221,34 +223,44 @@ class WebSite{
 
 class User{
 
+    // !! Нужен лог и кол-во попыток входа
+
     public $db;
     public $ua;
 
+    // Регистрация посетителя
+    public function do_reg(){
+
+        // !! Надо регать и ставить куку
+        setcookie( 'x94_user', "token_hash", time() + 60*60, "/" );
+
+        //!! Нужна проверка на такой же емайл и жаваскриптом на совпадение пароля + аяксом емайл
+        header("Location: /panel/support");
+    }
     // Получает данные по пользователю
     public function get_user(){
 
         // Если кука установлена
-        // if(!empty($_COOKIE['x94_user'])) return $this->db->query("select * from `users` where `token`='{$_COOKIE['x94_user']}'")->fetch_array( MYSQLI_ASSOC );
+        if(!empty($_COOKIE['x94_user'])){
+            $this->ua = $this->db->query("select * from `user` where `token`='{$_COOKIE['x94_user']}'")->fetch_array( MYSQLI_ASSOC );
+            if ($this->ua) return true;
+        }
 
-        // Если пришел с паролем с этого же сайта
-        // if(!empty($_POST['paswd']) && preg_match("/{$_SERVER['SERVER_NAME']}/", $_SERVER['HTTP_REFERER']))
-
-        print_r($_COOKIE);
         return false;
     }
 
     public function do_login(){
 
         // Ошибка логина
-        $success = "nope";
+        $go = "/login/nope";
 
         // Оставляю только 16ричные
         if( $this->db->query("select `user_id` from `user` where `paswd`='" . md5($_POST['paswd'] ) . "'")->fetch_array( MYSQLI_ASSOC ) ){
             setcookie( 'x94_user', "token_hash", time() + 60*60, "/" );
-            $success = "done";
+            $go = "/panel";
         }
 
-        header("Location: /login/{$success}");
+        header("Location: {$go}");
         exit;
     }
 
@@ -258,11 +270,15 @@ class User{
 
         $this->db = $db;
 
-        // Достаёт информацию по пользователю, возвращает массив
-        $this->ua = $this->get_user();
     }
 }
 
+class UserPanel{
+
+    public function just_check(){
+        echo "it works";
+    }
+}
 // Вывод ошибок, замеры работы скрипта
 error_reporting( E_ALL ); ini_set( 'display_errors', 1 ); $t_start = microtime(true );
 
