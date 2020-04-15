@@ -229,7 +229,11 @@ class User{
     public $ua;
 
     // Восстановление пароля
+    public function do_recovery(){
 
+        // Отправляет сообщение с временным паролем на почту и выводит страницу
+        return true;
+    }
     // Регистрация посетителя
     public function do_reg(){
 
