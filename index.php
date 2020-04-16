@@ -260,10 +260,12 @@ class User{
         // Ошибка логина
         $go = "/login/nope";
 
-        // Оставляю только 16ричные
-        if( $this->db->query("select `user_id` from `user` where `paswd`='" . md5($_POST['paswd'] ) . "'")->fetch_array( MYSQLI_ASSOC ) ){
-            setcookie( 'x94_user', "token_hash", time() + 60*60, "/" );
-            $go = "/panel";
+        if(!empty($_POST['paswd'])){
+            // Оставляю только 16ричные
+            if( $this->db->query("select `user_id` from `user` where `paswd`='" . md5($_POST['paswd'] ) . "'")->fetch_array( MYSQLI_ASSOC ) ){
+                setcookie( 'x94_user', "token_hash", time() + 60*60, "/" );
+                $go = "/panel";
+            }
         }
 
         header("Location: {$go}");
