@@ -283,6 +283,13 @@ class User{
 
 class UserPanel{
 
+    // Тело в панели управления
+    public function body_feel(){
+
+        echo "<h3>Check DUde</h3>Hell Yeahh";
+
+    }
+
     public function just_check(){
         echo "it works";
     }

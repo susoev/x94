@@ -9,11 +9,11 @@ if(!$u->get_user()) exit("<h3>{$ws->la['err_user_unauthorised']}</h3><a href='/l
 $p = new UserPanel();
 
 // Вся магия здесь, если есть метод, после //domain.com/panel/XXX, то он выполняется
-if (!empty($ws->ua[1])){
-    if (method_exists ($p, $ws->ua[1])){
-        $method = $ws->ua[1];
-        $p->$method();
-    }
+$ws->ua[1] = !empty($ws->ua[1]) ? $ws->ua[1] : "main";
+
+if (method_exists ($p, $ws->ua[1])){
+    $method = $ws->ua[1];
+    $p->$method();
 }
 
 // Верхнее меню
@@ -21,9 +21,8 @@ $top_menu = array('main','settings','orders','support','services');
 
 // !! Сделай подмены языка на хидере/футере
 include_once ("inc/panel/header.php");
-
+$p->body_feel();
 include_once ("inc/panel/footer.php");
 ?>
 
-                    <h3 class="mb-2">Панель управления</h3>
-                    <p>Текст</p>
+

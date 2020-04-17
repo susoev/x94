@@ -29,7 +29,7 @@
             }
             ?>
             <li class='nav-item'>
-                <a class="nav-link text-danger" href='/login'>Выход</a>
+                <a class="nav-link text-danger" href='/login'><? echo $ws->la['lnk_exit']; ?></a>
             </li>
         </ul>
 
