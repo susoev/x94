@@ -286,7 +286,7 @@ class UserPanel{
     // Тело в панели управления
     public function body_feel(){
 
-        echo "<h3>Check DUde</h3>Hell Yeahh";
+        echo "<h3>Check Dude</h3>Hell Yeahh";
 
     }
 
