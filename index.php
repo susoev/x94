@@ -228,6 +228,17 @@ class User{
     public $db;
     public $ua;
 
+    // Проверяет авторизацию
+    public function check_auth(){
+        if(!$this->get_user()){
+            header("Location: /login/unauthorised");
+            exit;
+        }
+
+        return true;
+
+    }
+
     // Восстановление пароля
     public function do_recovery(){
 

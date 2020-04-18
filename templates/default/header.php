@@ -58,7 +58,30 @@
     <meta name="theme-color" content="#ffffff" />
     <meta name="apple-mobile-web-app-status-bar-style" content="#ffffff" />
     <meta name="msapplication-navbutton-color" content="#000" />
-    <style>:root{--main-color: #<? echo ( !empty( $_REQUEST['hex'] ) ? $_REQUEST['hex'] : ( ctype_xdigit( $ws->sa['color'] ) ? $ws->sa['color'] : $the_arr['color'] ) ); ?>;}</style>
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <!--optional-->
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <!--script src="js/jquery-2.2.3.min.js"></script-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery.maskedinput.min.js"></script>
+    <script src="js/swiper.min.js"></script>
+    <script src="js/jquery.matchHeight-min.js"></script>
+    <script src="js/masonry.pkgd.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <style>
+        :root {
+            --color-text: #152329;
+            --color-brand: #a9b833;
+            --color-hover: #b0c035;
+            --color-error: #da2626;
+        }
+    </style>
+    <!--style>:root{--main-color: #<? echo ( !empty( $_REQUEST['hex'] ) ? $_REQUEST['hex'] : ( ctype_xdigit( $ws->sa['color'] ) ? $ws->sa['color'] : $the_arr['color'] ) ); ?>;}</style-->
 
     <base href='<? echo $ws->sa['bu']; ?>' />
     <? if( $ws->pa['url'] != '404' ){
