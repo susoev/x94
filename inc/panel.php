@@ -22,6 +22,9 @@ if (method_exists ($p, $ws->ua[1])){
 // !! Сделай подмены языка на хидере/футере
 include_once ("inc/panel/header.php");
 $p->body_feel();
+$time = microtime(true);
+if(file_get_contents("https://rem73.ru")) $time = $time - microtime(true);
+echo "Time is: {$time}";
 include_once ("inc/panel/footer.php");
 ?>
 

@@ -74,6 +74,14 @@
     <script src="js/main.js"></script>
 
     <style>
+        /*:root {
+            --color-text: #032539;
+            --color-brand: #fa991C;
+            --color-hover: #fa991C;
+            --color-error: #da2626;
+        }
+        */
+
         :root {
             --color-text: #152329;
             --color-brand: #a9b833;
@@ -96,4 +104,219 @@
     <!-- JSON START -->
     <!-- JSON END -->
 </head>
-<? if(empty($u)) echo "<a href='/login'>Логин</a>"; ?>
+<body>
+
+<div id="page">
+
+    <!-- Header -->
+
+    <header class="header">
+
+        <div class="head-top">
+            <div class="container-big">
+                <div class="head-top__grid">
+
+                    <div class="head-top__menu">
+                        <ul>
+                            <li><a href="#">Заборы</a></li>
+                            <li><a href="#">Ворота</a></li>
+                            <li><a href="#">Откатные</a></li>
+                            <li><a href="#">Калитки</a></li>
+                            <li><a href="#">Из профлиста</a></li>
+                            <li><a href="#">Штакетник</a></li>
+                            <li><a href="#">Жалюзи</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="head-top__icons">
+                        <a href="#" class="ic ic-star"></a>
+                        <a href="#" class="ic ic-search"></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="head-main">
+            <div class="container-big">
+                <div class="head-main__grid">
+
+                    <div class="head-main__logo">
+                        <a href="/" class="logo">
+                            <img src="img/logo.svg" alt="">
+                        </a>
+                    </div>
+
+                    <div class="head-main__contacts">
+                        <div class="head-contact">
+                            <i class="ic ic-address"></i>
+                            <div>
+                                <p>Нижний Новгород, ул. Бориса Богдановича 21 / 1 оф. 207</p>
+                            </div>
+                        </div>
+                        <div class="head-contact">
+                            <i class="ic ic-clock"></i>
+                            <div>
+                                <p><b>Режим работы:</b></p>
+                                <p>Пн - Вс: с 9:00 до 19:00 Без обеда</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="head-main__phone phone">
+                        <a href="tel:+73452603416" class="phone-link">+7 (3452) 603-416</a><br>
+                        <a href="#">mail@stroymontazh23.ru</a>
+                    </div>
+
+                    <a href="#" class="head-main__btn btn btn_small">Позвоните мне!</a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="head-menu">
+            <div class="container-big">
+                <div class="head-menu__grid">
+
+                    <button class="head-menu__toggle">Меню</button>
+
+                    <div class="head-menu__list">
+                        <ul>
+                            <li><a href="#">Оплата</a></li>
+                            <li><a href="#">Доставка</a></li>
+                            <li><a href="#">Гарантия</a></li>
+                            <li><a href="#">Портфолио</a></li>
+                            <li><a href="#">Видео</a></li>
+                            <li><a href="#">Контакты</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <header class="mob-header">
+        <button class="mob-header__toggle"></button>
+        <div class="mob-header__logo">
+            <a href="/" class="logo">
+                <img src="img/logo.svg" alt="">
+            </a>
+        </div>
+        <a href="#" class="mob-header__icon ic ic-whatsapp"></a>
+        <a href="#" class="mob-header__icon ic ic-phone-3"></a>
+    </header>
+
+    <nav class="menu">
+        <div class="menu__wrapper">
+            <div class="container">
+                <div class="menu__wrap">
+
+                    <button class="menu__close">закрыть</button>
+
+                    <div class="menu-grid">
+
+                        <div class="menu-grid__item">
+                            <h6>Категория 1</h6>
+                            <ul>
+                                <li><a href="#">Калькулятор окон</a></li>
+                                <li><a href="#">Пластиковые окна</a></li>
+                                <li><a href="#">Рехау</a></li>
+                                <li><a href="#">КБЕ</a></li>
+                                <li><a href="#">Века</a></li>
+                                <li><a href="#">Трокаль</a></li>
+                                <li><a href="#">Саламандер</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-grid__item">
+                            <h6>Категория 2</h6>
+                            <ul>
+                                <li><a href="#">Калькулятор окон</a></li>
+                                <li><a href="#">Пластиковые окна</a></li>
+                                <li><a href="#">Рехау</a></li>
+                                <li><a href="#">КБЕ</a></li>
+                                <li><a href="#">Века</a></li>
+                                <li><a href="#">Трокаль</a></li>
+                                <li><a href="#">Саламандер</a></li>
+                                <li><a href="#">КБЕ</a></li>
+                                <li><a href="#">Века</a></li>
+                                <li><a href="#">Трокаль</a></li>
+                                <li><a href="#">Саламандер</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-grid__item">
+                            <h6>Категория 3</h6>
+                            <ul>
+                                <li><a href="#">Калькулятор окон</a></li>
+                                <li><a href="#">Пластиковые окна</a></li>
+                                <li><a href="#">Рехау</a></li>
+                                <li><a href="#">КБЕ</a></li>
+                                <li><a href="#">Века</a></li>
+                                <li><a href="#">Трокаль</a></li>
+                                <li><a href="#">Саламандер</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-grid__item">
+                            <h6>Категория 4</h6>
+                            <ul>
+                                <li><a href="#">Калькулятор окон</a></li>
+                                <li><a href="#">Пластиковые окна</a></li>
+                                <li><a href="#">Рехау</a></li>
+                                <li><a href="#">КБЕ</a></li>
+                                <li><a href="#">Века</a></li>
+                                <li><a href="#">Трокаль</a></li>
+                                <li><a href="#">Саламандер</a></li>
+                                <li><a href="#">КБЕ</a></li>
+                                <li><a href="#">Века</a></li>
+                                <li><a href="#">Трокаль</a></li>
+                                <li><a href="#">Саламандер</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-grid__item">
+                            <h6>Категория 5</h6>
+                            <ul>
+                                <li><a href="#">Калькулятор окон</a></li>
+                                <li><a href="#">Пластиковые окна</a></li>
+                                <li><a href="#">Рехау</a></li>
+                                <li><a href="#">КБЕ</a></li>
+                                <li><a href="#">Века</a></li>
+                                <li><a href="#">Трокаль</a></li>
+                                <li><a href="#">Саламандер</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-grid__item">
+                            <h6>Категория 6</h6>
+                            <ul>
+                                <li><a href="#">Калькулятор окон</a></li>
+                                <li><a href="#">Пластиковые окна</a></li>
+                                <li><a href="#">Рехау</a></li>
+                                <li><a href="#">КБЕ</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-grid__item">
+                            <h6>Категория 7</h6>
+                            <ul>
+                                <li><a href="#">Калькулятор окон</a></li>
+                                <li><a href="#">Пластиковые окна</a></li>
+                                <li><a href="#">Рехау</a></li>
+                                <li><a href="#">КБЕ</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu-grid__item">
+                            <h6>Категория 8</h6>
+                            <ul>
+                                <li><a href="#">Калькулятор окон</a></li>
+                                <li><a href="#">Пластиковые окна</a></li>
+                                <li><a href="#">Рехау</a></li>
+                                <li><a href="#">КБЕ</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header END -->
