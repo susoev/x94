@@ -8,7 +8,7 @@ echo $hdr;
     <input type='text' name='phn' />
     <label><? echo $ws->la['login_paswd']; ?>:</label>
     <input type='text' name='paswd' />
-    <p><img src="/img/tmp_captcha.jpg"/></p>
+    <p><img src="/inc/panel/img/tmp_captcha.jpg"/></p>
     <input type='submit' value='<? echo $ws->la['btn_send']; ?>' >
 </form>
 <ul>

@@ -59,19 +59,19 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="#ffffff" />
     <meta name="msapplication-navbutton-color" content="#000" />
 
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="templates/<? echo $ws->pa['template']; ?>/css/normalize.css">
+    <link rel="stylesheet" href="templates/<? echo $ws->pa['template']; ?>/css/icomoon.css">
     <!--optional-->
-    <link rel="stylesheet" href="css/swiper.min.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="templates/<? echo $ws->pa['template']; ?>/css/swiper.min.css">
+    <link rel="stylesheet" href="templates/<? echo $ws->pa['template']; ?>/css/main.css">
 
     <!--script src="js/jquery-2.2.3.min.js"></script-->
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/jquery.maskedinput.min.js"></script>
-    <script src="js/swiper.min.js"></script>
-    <script src="js/jquery.matchHeight-min.js"></script>
-    <script src="js/masonry.pkgd.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="templates/<? echo $ws->pa['template']; ?>/js/jquery-3.2.1.min.js"></script>
+    <script src="templates/<? echo $ws->pa['template']; ?>/js/jquery.maskedinput.min.js"></script>
+    <script src="templates/<? echo $ws->pa['template']; ?>/js/swiper.min.js"></script>
+    <script src="templates/<? echo $ws->pa['template']; ?>/js/jquery.matchHeight-min.js"></script>
+    <script src="templates/<? echo $ws->pa['template']; ?>/js/masonry.pkgd.min.js"></script>
+    <script src="templates/<? echo $ws->pa['template']; ?>/js/main.js"></script>
 
     <style>
         /*:root {
@@ -88,6 +88,15 @@
             --color-hover: #b0c035;
             --color-error: #da2626;
         }
+
+        --gradient-radial: radial-gradient(circle, #d5de8b 0%, #a9b833 75%);
+        --gradient-callback: linear-gradient(65deg, #1b2327 25%, #a9b833 100%);
+
+        --bg-first: url('https://rem73.ru/templates/default/img/first/first-bg.jpg');
+        --bg-about: url('/templates/default/img/about/about-bg.jpg');
+        --bg-t-prices: url('/templates/default/img/t-prices/t-prices-bg.jpg');
+        --bg-benefits: url('/templates/default/img/benefits/benefits-bg.jpg');
+        --bg-benefits-tablet: url('/templates/default/img/benefits/benefits-bg_tablet.jpg');
     </style>
     <!--style>:root{--main-color: #<? echo ( !empty( $_REQUEST['hex'] ) ? $_REQUEST['hex'] : ( ctype_xdigit( $ws->sa['color'] ) ? $ws->sa['color'] : $the_arr['color'] ) ); ?>;}</style-->
 
@@ -143,7 +152,7 @@
 
                     <div class="head-main__logo">
                         <a href="/" class="logo">
-                            <img src="img/logo.svg" alt="">
+                            <img src="templates/default/img/logo.svg" alt="">
                         </a>
                     </div>
 
@@ -201,7 +210,7 @@
         <button class="mob-header__toggle"></button>
         <div class="mob-header__logo">
             <a href="/" class="logo">
-                <img src="img/logo.svg" alt="">
+                <img src="templates/default/img/logo.svg" alt="">
             </a>
         </div>
         <a href="#" class="mob-header__icon ic ic-whatsapp"></a>

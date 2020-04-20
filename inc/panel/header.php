@@ -5,10 +5,10 @@
     <title><? echo $ws->la['login_title']; ?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <base href='/' />
-    <link rel='stylesheet' href='/css/panel_main.css'>
+    <link rel='stylesheet' href='/inc/panel/css/panel_main.css'>
 
-    <script src='/js/jquery-3.2.1.min.js'></script>
-    <script async src='/js/bootstrap.min.js'></script>
+    <script src='/inc/panel/js/jquery-3.2.1.min.js'></script>
+    <script async src='/inc/panel/js/bootstrap.min.js'></script>
     <!--script async src='/js/main.js'></script-->
 </head>
 <body>

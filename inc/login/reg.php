@@ -20,7 +20,7 @@
     <label><? echo $ws->la['login_repas']; ?></label>
     <input type='text' name='login_repas' required />
 
-    <p><img src="/img/tmp_captcha.jpg"/></p>
+    <p><img src="/inc/panel/img/tmp_captcha.jpg"/></p>
 
     <input type='submit' value='<? echo $ws->la['btn_send']; ?>' >
 </form>
