@@ -1,0 +1,132 @@
+.plans {
+  margin: 70px 0;
+}
+
+.plans-slider {
+  position: relative;
+}
+
+.plans-slider .swiper-button-prev {
+  left: -90px;
+}
+
+.plans-slider .swiper-button-next {
+  right: -90px;
+}
+
+.plan {
+  overflow: hidden;
+  padding: 25px 14px 35px;
+  background: #f9f9f9;
+  text-align: center;
+}
+
+.plan__title {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.plan__title > :last-child {
+  margin-bottom: 0;
+}
+
+.plan__list {
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  text-align: left;
+  line-height: 1.4;
+  font-size: 16px;
+  color: #959595;
+}
+
+.plan__list li {
+  position: relative;
+  padding: 20px 20px 20px 55px;
+}
+
+.plan__list li:nth-child(2n) {
+  background: #f9f9f9;
+}
+
+.plan__list li:before {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  margin: -.5em 0 0;
+  content: "\e90b";
+  font-family: 'icomoon';
+  text-transform: none;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  font-size: 21px;
+}
+
+.plan__list li.active {
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.plan__list li.active:before {
+  content: "\e90c";
+  color: var(--color-brand);
+}
+
+.plan .price span {
+  font-size: 165%;
+}
+
+@media only screen and (max-width: 1299px) {
+  .plans-slider {
+    padding-bottom: 80px;
+  }
+  .plans-slider .swiper-button-prev,
+  .plans-slider .swiper-button-next {
+    top: auto;
+    bottom: 0;
+    margin: 0;
+  }
+  .plans-slider .swiper-button-prev {
+    left: 50%;
+    margin-left: -70px;
+  }
+  .plans-slider .swiper-button-next {
+    right: 50%;
+    margin-right: -70px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .plans {
+    margin: 60px 0;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .plan {
+    max-width: 380px;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .plans-slider {
+    margin: 0 -15px;
+  }
+  .plan {
+    max-width: none;
+  }
+  .plan .btn {
+    width: 100%;
+  }
+  .plan__list {
+    font-size: 14px;
+  }
+}

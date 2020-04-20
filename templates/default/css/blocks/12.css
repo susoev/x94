@@ -1,0 +1,130 @@
+.faq {
+  margin: 65px 0;
+}
+
+.faq .action-box .btn {
+  min-width: 310px;
+}
+
+.faq-item {
+  margin-bottom: 15px;
+}
+
+.faq-item:last-child {
+  margin-bottom: 0;
+}
+
+.faq-item__btn {
+  overflow: hidden;
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 85px;
+  padding: 17px 120px 17px 34px;
+  border: 1px solid #ebebeb;
+  border-radius: 5px;
+  background: #f9f9f9;
+  text-align: left;
+  font-weight: bold;
+  font-size: 18px;
+  color: var(--color-text);
+  -webkit-transition: .3s;
+  -o-transition: .3s;
+  transition: .3s;
+}
+
+.faq-item__btn:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 110px;
+  height: 100%;
+  background: #fff;
+  -webkit-transform: skewX(-25deg);
+  -ms-transform: skewX(-25deg);
+  transform: skewX(-25deg);
+  -webkit-transform-origin: bottom left;
+  -ms-transform-origin: bottom left;
+  transform-origin: bottom left;
+}
+
+.faq-item__btn .ic {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  margin: -.5em 0 0;
+  font-size: 30px;
+  color: var(--color-brand);
+  -webkit-transition: .4s;
+  -o-transition: .4s;
+  transition: .4s;
+}
+
+.faq-item__btn:hover {
+  color: var(--color-brand);
+}
+
+.faq-item__btn.active .ic {
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+  color: #ececec;
+}
+
+.faq-item__hidden {
+  display: none;
+  padding: 30px 25px 90px 35px;
+}
+
+@media only screen and (max-width: 1199px) {
+  .faq-item__btn {
+    padding: 15px 120px 15px 15px;
+    font-size: 16px;
+  }
+  .faq-item__hidden {
+    padding: 25px 15px 45px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .faq-item__btn {
+    padding-right: 60px;
+  }
+  .faq-item__btn:before {
+    display: none;
+  }
+  .faq-item__btn .ic {
+    right: 15px;
+    font-size: 20px;
+  }
+  .faq-item .content {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .faq .action-box .btn {
+    min-width: 0;
+  }
+  .faq-item {
+    text-align: center;
+  }
+  .faq-item__btn {
+    padding: 10px 15px 30px;
+    min-height: 0;
+    line-height: 1.25;
+    text-align: center;
+  }
+  .faq-item__btn .ic {
+    top: auto;
+    bottom: 2px;
+    right: 15px;
+    left: 15px;
+    margin: 0;
+    font-size: 18px;
+  }
+  .faq-item__hidden {
+    padding: 10px 0;
+  }
+}

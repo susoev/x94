@@ -1,0 +1,17 @@
+.news {
+  position: relative;
+  z-index: 2;
+  margin: 65px 0;
+}
+
+.news .title {
+  margin-bottom: 60px;
+}
+
+.news .main-item__img {
+  height: 155px;
+}
+
+.news .main-item__main {
+  padding-bottom: 20px;
+}

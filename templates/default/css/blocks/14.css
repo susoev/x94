@@ -1,0 +1,120 @@
+.benefits {
+  position: relative;
+  z-index: 1;
+  padding: 65px 0;
+}
+
+.benefits:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-benefits) center;
+  background-size: cover;
+}
+
+.benefits__grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.benefits__col {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 42%;
+  flex: 0 0 42%;
+  max-width: 42%;
+  padding: 40px 30px 70px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.benefits__col .title {
+  text-align: left;
+}
+
+.news--benefits {
+  margin-top: -95px;
+  padding-top: 75px;
+}
+
+.news--benefits:before {
+  top: -75px;
+}
+
+.benefit {
+  position: relative;
+  padding: 0 0 0 80px;
+  margin-bottom: 40px;
+  min-height: 50px;
+}
+
+.benefit:last-child {
+  margin-bottom: 0;
+}
+
+.benefit .ic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 50px;
+  color: var(--color-brand);
+}
+
+.benefit .ic-important {
+  color: var(--color-error);
+}
+
+@media only screen and (max-width: 1199px) {
+  .benefits:before {
+    background-image: var(--bg-benefits-tablet);
+  }
+  .benefits__grid {
+    display: block;
+  }
+  .benefits__col {
+    max-width: 100%;
+    margin: 0;
+    padding: 25px 15px 30px;
+  }
+  .benefits__col:nth-child(n+2) {
+    margin-top: 25px;
+  }
+  .benefits__col .title {
+    text-align: center;
+  }
+  .benefits__wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 -10px -30px;
+  }
+  .benefit {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 33.33%;
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+    padding: 60px 10px 30px;
+    margin: 0;
+    text-align: center;
+  }
+  .benefit .ic {
+    right: 0;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .benefit {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

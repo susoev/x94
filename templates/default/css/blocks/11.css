@@ -1,0 +1,126 @@
+.scheme {
+  position: relative;
+  z-index: 1;
+  padding: 65px 0 0;
+  margin-bottom: 100px;
+}
+
+.scheme:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 100px;
+  background: #f9f9f9;
+}
+
+.scheme__grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0 -15px -35px;
+}
+
+.scheme__col {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 33.33%;
+  flex: 0 0 33.33%;
+  max-width: 33.33%;
+  padding: 0 15px 35px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.scheme__col .scheme-item {
+  width: 100%;
+}
+
+.scheme .calline {
+  margin-top: 115px;
+}
+
+.scheme-item {
+  position: relative;
+  z-index: 1;
+  padding: 35px 35px 35px 90px;
+}
+
+.scheme-item:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 30px;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.scheme-item:after {
+  content: attr(data-number);
+  position: absolute;
+  top: 25px;
+  left: 0;
+  background: #f9f9f9;
+  line-height: 60px;
+  font-weight: bold;
+  font-size: 40px;
+  color: var(--color-brand);
+}
+
+@media only screen and (max-width: 1199px) {
+  .scheme {
+    padding: 60px 0 0;
+    margin-bottom: 60px;
+  }
+  .scheme .calline {
+    margin-top: 50px;
+  }
+  .scheme__col {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .scheme__grid {
+    margin: 0 -10px -20px;
+  }
+  .scheme__col {
+    padding: 0 10px 20px;
+  }
+  .scheme-item {
+    padding: 45px 15px 15px;
+    text-align: center;
+  }
+  .scheme-item:before {
+    top: 20px;
+    left: 0;
+  }
+  .scheme-item:after {
+    top: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    min-width: 90px;
+    text-align: center;
+    line-height: 35px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .scheme__col {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

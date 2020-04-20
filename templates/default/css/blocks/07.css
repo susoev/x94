@@ -1,0 +1,78 @@
+.reviews {
+  padding: 100px 0;
+  background: #f9f9f9;
+}
+
+.reviews__grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0 -15px -40px;
+}
+
+.review {
+  width: 50%;
+  padding: 0 15px 40px;
+}
+
+.review__box {
+  position: relative;
+  z-index: 1;
+  padding: 35px 40px;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 5px;
+}
+
+.review__box:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  bottom: 25px;
+  right: 22px;
+  width: 68px;
+  height: 49px;
+  background: url("../img/reviews/quote.svg");
+}
+
+.review__box .date {
+  margin: 10px 0 0;
+}
+
+.review .user-info {
+  margin: 20px 35px 0;
+}
+
+.prices--reviews {
+  padding-top: 10px;
+}
+
+@media only screen and (max-width: 1199px) {
+  .reviews {
+    padding: 60px 0;
+  }
+  .prices--reviews {
+    padding-top: 20px;
+  }
+  .reviews__grid {
+    margin-bottom: -20px;
+  }
+  .reviews__grid .review:nth-child(n+3) {
+    display: none;
+  }
+  .review {
+    width: 100%;
+    padding-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .review__box {
+    padding: 30px 10px;
+  }
+  .review .user-info {
+    margin: 20px 0 0;
+  }
+}

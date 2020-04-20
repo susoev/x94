@@ -1,0 +1,141 @@
+.advants {
+  position: relative;
+  padding: 60px 0 0;
+  margin: 0 0 100px;
+}
+
+.advants:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 100px;
+  background: #f9f9f9;
+}
+
+.advants .container {
+  position: relative;
+  z-index: 1;
+}
+
+.advants__wrap {
+  position: relative;
+  z-index: 1;
+  padding: 60px 0 120px 480px;
+  min-height: 560px;
+}
+
+.advants__wrap:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: -15px;
+  right: -15px;
+  bottom: 45px;
+  border: 2px solid #fff;
+}
+
+.advants__title {
+  position: absolute;
+  right: 100%;
+  bottom: 0;
+  min-width: 420px;
+  margin-right: -385px;
+}
+
+.advants__title img {
+  max-width: none;
+  display: block;
+  max-height: 610px;
+}
+
+.advants__title h2 {
+  position: absolute;
+  right: 0;
+  bottom: 90px;
+  margin: 0;
+  width: 100%;
+  max-width: 350px;
+}
+
+.advants__grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0 -15px -50px;
+}
+
+.advants__col {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0 15px 50px;
+}
+
+.services--advants {
+  margin-top: -130px;
+}
+
+.services--advants:before {
+  top: -130px;
+}
+
+.advant .ic {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 50px;
+  color: var(--color-brand);
+}
+
+@media only screen and (max-width: 1199px) {
+  .advants {
+    margin: 0 0 60px;
+  }
+  .advants:before {
+    top: 0;
+  }
+  .advants .calline {
+    margin-top: 50px;
+  }
+  .advants__wrap {
+    padding: 0;
+    min-height: 0;
+  }
+  .advants__wrap:before {
+    display: none;
+  }
+  .advants__title {
+    position: static;
+    margin: 0 0 35px;
+    min-width: 0;
+    text-align: center;
+  }
+  .advants__title img {
+    display: none;
+  }
+  .advants__title h2 {
+    position: static;
+    bottom: auto;
+    max-width: none;
+  }
+  .advant {
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .advants__grid {
+    margin: 0 -12px -25px;
+  }
+  .advants__col {
+    padding: 0 7px 25px;
+  }
+  .advant .ic {
+    margin-bottom: 15px;
+  }
+}

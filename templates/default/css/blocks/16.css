@@ -1,0 +1,129 @@
+.s-seo {
+  margin: 100px 0;
+}
+
+.s-seo__grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  z-index: 1;
+  padding: 15px 5px 15px 0;
+}
+
+.s-seo__bd {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: -15px;
+  right: -15px;
+  bottom: 0;
+  border: 1px solid #e1e1e1;
+  border-top: none;
+  border-right: none;
+}
+
+.s-seo__bd:before, .s-seo__bd:after {
+  content: '';
+  position: absolute;
+}
+
+.s-seo__bd:before {
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 1px;
+  background: -webkit-gradient(linear, left top, right top, from(#e1e1e1), to(rgba(225, 225, 225, 0)));
+  background: -webkit-linear-gradient(left, #e1e1e1, rgba(225, 225, 225, 0));
+  background: -o-linear-gradient(left, #e1e1e1, rgba(225, 225, 225, 0));
+  background: linear-gradient(to right, #e1e1e1, rgba(225, 225, 225, 0));
+}
+
+.s-seo__bd:after {
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  height: 60%;
+  background: -webkit-gradient(linear, left bottom, left top, from(#e1e1e1), to(rgba(225, 225, 225, 0)));
+  background: -webkit-linear-gradient(bottom, #e1e1e1, rgba(225, 225, 225, 0));
+  background: -o-linear-gradient(bottom, #e1e1e1, rgba(225, 225, 225, 0));
+  background: linear-gradient(to top, #e1e1e1, rgba(225, 225, 225, 0));
+}
+
+.s-seo__img {
+  -webkit-box-flex: 0;
+  -ms-flex: none;
+  flex: none;
+  width: 445px;
+  min-height: 460px;
+  margin-right: 95px;
+  background-position: center;
+  background-size: cover;
+}
+
+.s-seo__main {
+  -webkit-box-flex: 1;
+  -ms-flex: auto;
+  flex: auto;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  align-self: center;
+  -webkit-box-ordinal-group: 2;
+  -ms-flex-order: 1;
+  order: 1;
+  padding-bottom: 30px;
+}
+
+.s-seo__main .title {
+  margin-bottom: 25px;
+  text-align: inherit;
+}
+
+@media only screen and (max-width: 1199px) {
+  .s-seo {
+    margin: 60px 0;
+  }
+  .s-seo__img {
+    width: 340px;
+    margin-right: 30px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .s-seo__grid {
+    display: block;
+    padding: 20px;
+  }
+  .s-seo__bd {
+    left: 0;
+    right: 0;
+  }
+  .s-seo__main {
+    padding: 0;
+  }
+  .s-seo__img {
+    width: 100%;
+    max-width: 445px;
+    min-height: 0;
+    margin: 20px 0 0;
+  }
+  .s-seo__img:before {
+    content: '';
+    display: block;
+    width: 100%;
+    padding-bottom: 103.37%;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .s-seo__main {
+    text-align: center;
+  }
+  .s-seo__grid {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .s-seo__img {
+    margin: 20px auto 0;
+  }
+}

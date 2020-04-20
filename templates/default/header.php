@@ -74,29 +74,21 @@
     <script src="templates/<? echo $ws->pa['template']; ?>/js/main.js"></script>
 
     <style>
-        /*:root {
-            --color-text: #032539;
-            --color-brand: #fa991C;
-            --color-hover: #fa991C;
-            --color-error: #da2626;
-        }
-        */
-
         :root {
             --color-text: #152329;
             --color-brand: #a9b833;
             --color-hover: #b0c035;
             --color-error: #da2626;
+
+            --gradient-radial: radial-gradient(circle, #d5de8b 0%, #a9b833 75%);
+            --gradient-callback: linear-gradient(65deg, #1b2327 25%, #a9b833 100%);
+
+            --bg-first: url('/templates/default/img/first/first-bg.jpg');
+            --bg-about: url('/templates/default/img/about/about-bg.jpg');
+            --bg-t-prices: url('/templates/default/img/t-prices/t-prices-bg.jpg');
+            --bg-benefits: url('/templates/default/img/benefits/benefits-bg.jpg');
+            --bg-benefits-tablet: url('/templates/default/img/benefits/benefits-bg_tablet.jpg');
         }
-
-        --gradient-radial: radial-gradient(circle, #d5de8b 0%, #a9b833 75%);
-        --gradient-callback: linear-gradient(65deg, #1b2327 25%, #a9b833 100%);
-
-        --bg-first: url('https://rem73.ru/templates/default/img/first/first-bg.jpg');
-        --bg-about: url('/templates/default/img/about/about-bg.jpg');
-        --bg-t-prices: url('/templates/default/img/t-prices/t-prices-bg.jpg');
-        --bg-benefits: url('/templates/default/img/benefits/benefits-bg.jpg');
-        --bg-benefits-tablet: url('/templates/default/img/benefits/benefits-bg_tablet.jpg');
     </style>
     <!--style>:root{--main-color: #<? echo ( !empty( $_REQUEST['hex'] ) ? $_REQUEST['hex'] : ( ctype_xdigit( $ws->sa['color'] ) ? $ws->sa['color'] : $the_arr['color'] ) ); ?>;}</style-->
 
